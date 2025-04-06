@@ -1,0 +1,5 @@
+Mood: 4, Sleep: 6 hrs, Energy: 5
+Mood: 6, Sleep: 3 hrs, Energy: 6
+Mood: 6, Sleep: 6 hrs, Energy: 6
+Mood: 4, Sleep: 5 hrs, Energy: 3
+Mood: 6, Sleep: 5 hrs, Energy: 6

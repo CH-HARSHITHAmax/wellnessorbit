@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WellnessOrbit</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+
+  <div class="container">
+    <h1>🌌 WellnessOrbit – Space Weather & Health Sync</h1>
+    <form method="POST">
+      <label for="mood">Mood (1-10):</label>
+      <input type="range" id="mood" name="mood" min="1" max="10"><br><br>
+
+      <label for="sleep">Sleep Duration (hrs):</label>
+      <input type="number" id="sleep" name="sleep" min="0" max="24"><br><br>
+
+      <label for="energy">Energy Level (1-10):</label>
+      <input type="range" id="energy" name="energy" min="1" max="10"><br><br>
+
+      <button type="submit">Log Entry</button>
+    </form>
+  </div>
+<a href="/logs">
+  <button style="margin-top: 10px;" class="btn btn-info">View Logged Entries</button>
+</a>
+
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wellness Logs</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #121f2e;
+            color: white;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            color: #38bdf8;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #1f2d3d;
+            color: #eee;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+        }
+        tr:hover {
+            background-color: #2e3b4e;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2>Wellness Journal Logs</h2>
+    <table>
+        <tr>
+            <th>#</th>
+           <th>Mood</th>
+            <th>Sleep (hrs)</th>
+            <th>Energy</th>
+        </tr>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ entry[1] }}</td>
+            <td>{{ entry[2] }}</td>
+            <td>{{ entry[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

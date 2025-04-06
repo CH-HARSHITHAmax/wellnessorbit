@@ -1,0 +1,48 @@
+ 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solar Flares - Space Weather</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0b1120;
+            color: #f1f5f9;
+            padding: 20px;
+        }
+        h1 {
+            color: #38bdf8;
+            text-align: center;
+        }
+        .flare {
+            background-color: #1e293b;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #0ea5e9;
+        }
+        .flare a {
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <h1>Recent Solar Flares (NASA DONKI API)</h1>
+
+    {% if flares %}
+        {% for flare in flares %}
+            <div class="flare">
+                <p><strong>Class Type:</strong> {{ flare.classType }}</p>
+                <p><strong>Peak Time:</strong> {{ flare.peakTime }}</p>
+                <p><strong>Source Location:</strong> {{ flare.sourceLocation }}</p>
+                <p><strong>Active Region:</strong> {{ flare.activeRegionNum }}</p>
+                <p><a href="{{ flare.link }}" target="_blank">More Info</a></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No solar flare data available for the past 7 days.</p>
+    {% endif %}
+</body>
+</html>
