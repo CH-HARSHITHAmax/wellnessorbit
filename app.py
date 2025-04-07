@@ -66,11 +66,15 @@ def space_weather():
         return "NASA API key not found. Please set it in your .env or environment variables.", 500
 
     end_date = datetime.utcnow().date()
-    start_date = end_date - timedelta(days=7)
+    start_date = end_date - timedelta(days=8)
+
+    print(f"📅 Fetching solar flare data from {start_date} to {end_date}")
 
     url = f"https://api.nasa.gov/DONKI/FLR?startDate={start_date}&endDate={end_date}&api_key={api_key}"
     response = requests.get(url)
     flares = response.json() if response.status_code == 200 else []
+
+    print(f"☀️ Number of flares fetched: {len(flares)}")
 
     return render_template("space_weather.html", solar_flares=flares)
 
@@ -98,11 +102,14 @@ def correlation():
         return "NASA API key not found. Please set it in your .env or environment variables.", 500
 
     end_date = datetime.utcnow().date()
-    start_date = end_date - timedelta(days=7)
+    start_date = end_date - timedelta(days=8)
+    print(f"📅 Fetching solar flare data from {start_date} to {end_date}")
     url = f"https://api.nasa.gov/DONKI/FLR?startDate={start_date}&endDate={end_date}&api_key={api_key}"
 
     response = requests.get(url)
     flare_data = response.json() if response.status_code == 200 else []
+    print(f"☀️ Number of flares fetched: {len(flare_data)}")
+
     flares_per_entry = [len(flare_data)] * len(rows) if flare_data else [0] * len(rows)
 
     return render_template("correlation.html", labels=labels, mood=mood, sleep=sleep, energy=energy, flares=flares_per_entry)
