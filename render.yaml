@@ -6,4 +6,4 @@ services:
     startCommand: "gunicorn app:app"
     envVars:
       - key: NASA_API_KEY
-        value: your_actual_api_key_here
+        value: 6b7525e667ed6a829730bfe4692fe67a
