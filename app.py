@@ -4,15 +4,15 @@ import sqlite3
 from dotenv import load_dotenv
 import requests
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
-import os
 
+# Load environment variables from .env file
 load_dotenv()
-
-
 
 app = Flask(__name__)
-load_dotenv()
+
+# Ensure data folder and DB exist
+if not os.path.exists("data"):
+    os.makedirs("data")
 
 # Database initialization
 def init_db():
@@ -28,6 +28,8 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
+
+init_db()
 
 # Home route to handle form submission
 @app.route('/', methods=['GET', 'POST'])
@@ -56,28 +58,24 @@ def logs():
     conn.close()
     return render_template("logs.html", entries=entries)
 
-# Ensure data folder and DB exist
-if not os.path.exists("data"):
-    os.makedirs("data")
-init_db()
-
+# Space weather data route
 @app.route('/space-weather')
 def space_weather():
-    api_key = os.getenv("NASA_API_KEY")  # from your .env
+    api_key = os.getenv("NASA_API_KEY")
+    if not api_key:
+        return "NASA API key not found. Please set it in your .env or environment variables.", 500
+
     end_date = datetime.utcnow().date()
-    start_date = end_date - timedelta(days=7)  # last 7 days
+    start_date = end_date - timedelta(days=7)
 
     url = f"https://api.nasa.gov/DONKI/FLR?startDate={start_date}&endDate={end_date}&api_key={api_key}"
 
     response = requests.get(url)
-    if response.status_code == 200:
-        flares = response.json()
-    else:
-        flares = []
-    print("Fetched flares:", flares) 
-    return render_template("space_weather.html", flares=flares)
-api_key = os.getenv("NASA_API_KEY")
+    flares = response.json() if response.status_code == 200 else []
 
+    return render_template("space_weather.html", flares=flares)
+
+# Correlation visualization route
 @app.route('/correlation')
 def correlation():
     conn = sqlite3.connect('data/wellness.db')
@@ -86,28 +84,30 @@ def correlation():
     rows = cursor.fetchall()
     conn.close()
 
-    # Extract and format data
     labels = [f"Entry {i+1}" for i in range(len(rows))]
-    mood = [int(row[1]) for row in rows]
-    sleep = [float(row[2]) for row in rows]
-    energy = [int(row[3]) for row in rows]
 
-    # Fetch solar flare count per entry
+    try:
+        mood = [int(row[1]) for row in rows]
+        sleep = [float(row[2]) for row in rows]
+        energy = [int(row[3]) for row in rows]
+    except ValueError:
+        return "Invalid data found in the database. Please ensure inputs are numeric.", 500
+
+    # Fetch solar flare data
     api_key = os.getenv("NASA_API_KEY")
+    if not api_key:
+        return "NASA API key not found. Please set it in your .env or environment variables.", 500
+
     end_date = datetime.utcnow().date()
     start_date = end_date - timedelta(days=7)
     url = f"https://api.nasa.gov/DONKI/FLR?startDate={start_date}&endDate={end_date}&api_key={api_key}"
+
     response = requests.get(url)
     flare_data = response.json() if response.status_code == 200 else []
-    flares_per_entry = [0] * len(rows)  # Simplified count placeholder
-    if flare_data:
-        count = len(flare_data)
-        flares_per_entry = [count] * len(rows)  # Roughly assign count equally
+    flares_per_entry = [len(flare_data)] * len(rows) if flare_data else [0] * len(rows)
 
     return render_template("correlation.html", labels=labels, mood=mood, sleep=sleep, energy=energy, flares=flares_per_entry)
 
-
-
-# Run app
+# Run app locally
 if __name__ == '__main__':
     app.run(debug=True)
