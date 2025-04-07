@@ -69,11 +69,10 @@ def space_weather():
     start_date = end_date - timedelta(days=7)
 
     url = f"https://api.nasa.gov/DONKI/FLR?startDate={start_date}&endDate={end_date}&api_key={api_key}"
-
     response = requests.get(url)
     flares = response.json() if response.status_code == 200 else []
 
-    return render_template("space_weather.html", flares=flares)
+    return render_template("space_weather.html", solar_flares=flares)
 
 # Correlation visualization route
 @app.route('/correlation')

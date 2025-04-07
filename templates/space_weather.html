@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +30,8 @@
 
     <h1>Recent Solar Flares (NASA DONKI API)</h1>
 
-    {% if flares %}
-        {% for flare in flares %}
+    {% if solar_flares and solar_flares|length > 0 %}
+        {% for flare in solar_flares %}
             <div class="flare">
                 <p><strong>Class Type:</strong> {{ flare.classType }}</p>
                 <p><strong>Peak Time:</strong> {{ flare.peakTime }}</p>
