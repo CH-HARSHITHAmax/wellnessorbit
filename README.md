@@ -38,6 +38,13 @@ cd wellnessorbit
 pip install -r requirements.txt
 python app.py
 
+🧩 Challenges & Solutions
+1.NASA API returned no flares at first – Confirmed it's realistic due to recent solar activity; added debug prints and handled fallback cases.
+
+2.Deployment Issues on Render – Ensured correct port binding and gunicorn setup in requirements.txt.
+
+3.Data type mismatches in correlation – Validated and casted form inputs before processing; added error messages for invalid data.
+
 ---
  📩 Contact
 
@@ -50,3 +57,4 @@ Created by **CH Harshitha** | B.Tech Electronics & Communication Engineering
 
 Add README.md with project details
 Update README with contact details
+Update README with Challenges & Solutions
