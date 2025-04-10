@@ -38,4 +38,15 @@ cd wellnessorbit
 pip install -r requirements.txt
 python app.py
 
+---
+ 📩 Contact
+
+Created by **CH Harshitha** | B.Tech Electronics & Communication Engineering  
+📧 Email: 22wh1a0424@bvrithyderabad.edu.in
+🔗 GitHub: [@CH-HARSHITHAmax](https://github.com/CH-HARSHITHAmax)  
+🌐 Project: [WellnessOrbit](https://wellnessorbit.onrender.com/)
+
+
+
 Add README.md with project details
+Update README with contact details
